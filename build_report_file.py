@@ -37,13 +37,20 @@ keys = [
 report = open('report.csv','w', newline='\n')
 csvfile = open('table.csv', 'w', newline='\n')
 log = open('log_table.txt', 'w', newline='\n')
+dir_file = open('paths.csv', 'w', newline='\n')
+dir_occfile = open('paths_occ.csv', 'w', newline='\n')
 
 reportWrite = csv.DictWriter(report, fieldnames = atribute, delimiter = ';')
 csv_writer = csv.DictWriter(csvfile, fieldnames = atribute, delimiter = ';')
 
+csv_dir_f = csv.DictWriter(dir_file, fieldnames = ['path', 'filename'], delimiter = ';')
+csv_occ_f = csv.DictWriter(dir_occfile, fieldnames = ['path', 'filename'], delimiter = ';')
+
+
 csv_writer.writeheader()
 reportWrite.writeheader()
-
+csv_dir_f.writeheader()
+csv_occ_f.writeheader()
 
 emptyFileCounter = 0
 ocutFileCounter = 0
@@ -75,6 +82,10 @@ for dirr in baseDirectories:
 					
 					if 'KCT' in headerKeys:
 						ocutFileCounter += 1
+						csv_occ_f.writerow({
+							'filename':file,
+							'path':p
+						})
 					else:	
 						row = dict()
 						reportRow = dict()
@@ -82,6 +93,10 @@ for dirr in baseDirectories:
 						row.update({
 							'filename': file,
 							'path': p
+						})
+						csv_dir_f.writerow({
+							'filename':file,
+							'path':p
 						})
 
 						row.update({
