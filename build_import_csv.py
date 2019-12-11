@@ -12,11 +12,12 @@ atribute = [
 	'path',
 	'object',
 	'exposure',
-	'date-obs',
+	'date_obs',
 	'ra',
 	'dec',
 	'telescop',
 	'instrume',
+	'real_instrume',
 	'observer',
 	'filter',
 	'file_size'
@@ -167,10 +168,14 @@ for row in readC:
 			
 			prop_name = prop.lower()
 			value = comp('ikon', prop, headerFits)
-
+			if prop == 'DATE-OBS':
+				prop_name = prop_name.replace('-','_')
 			srow.update({
 				prop_name: value
 			})
+		srow.update({
+			'real_instrume':'Ikon'
+		})
 		csv_writer.writerow(srow)
 
 
@@ -179,10 +184,14 @@ for row in readC:
 			
 			prop_name = prop.lower()
 			value = comp('ixon', prop, headerFits)
-
+			if prop == 'DATE-OBS':
+				prop_name = prop_name.replace('-','_')
 			srow.update({
 				prop_name: value
 			})
+		srow.update({
+			'real_instrume':'Ixon'
+		})
 		csv_writer.writerow(srow)
 	
 	elif row['path'].lower().count('goodman') > 0:
@@ -190,10 +199,14 @@ for row in readC:
 			
 			prop_name = prop.lower()
 			value = comp('goodman', prop, headerFits)
-
+			if prop == 'DATE-OBS':
+				prop_name = prop_name.replace('-','_')
 			srow.update({
 				prop_name: value
 			})
+		srow.update({
+			'real_instrume':'Goodman Spectro'
+		})
 		csv_writer.writerow(srow)
 
 	elif row['path'].lower().count('raptor') > 0:
@@ -201,10 +214,14 @@ for row in readC:
 			
 			prop_name = prop.lower()
 			value = comp('raptor', prop, headerFits)
-
+			if prop == 'DATE-OBS':
+				prop_name = prop_name.replace('-','_')
 			srow.update({
 				prop_name: value
 			})
+		srow.update({
+			'real_instrume':'Raptor'
+		})
 		csv_writer.writerow(srow)
 
 	elif row['path'].lower().count('wfi') > 0:
@@ -212,10 +229,16 @@ for row in readC:
 			
 			prop_name = prop.lower()
 			value = comp('wfi', prop, headerFits)
-
+			if prop == 'DATE-OBS':
+				prop_name = prop_name.replace('-','_')
 			srow.update({
 				prop_name: value
 			})
+		srow.update({
+			'real_instrume':'Wfi'
+		})
 		csv_writer.writerow(srow)
+	else:
+		log.write(row['path'] + '\n')
 
 	del srow
